@@ -34,9 +34,11 @@ Route::group([
     // Role
 
     Route::middleware([CheckPermission::class . ':canCreateRole'])->post('/roles', [RoleController::class, 'store']);
-    Route::middleware([CheckPermission::class . ':canUpdateRole'])->put('/roles/{id}', [RoleController::class, 'update']);
+    Route::middleware([CheckPermission::class . ':canUpdateRole'])->put('/roles/{uuid}', [RoleController::class, 'update']);
     Route::middleware([CheckPermission::class . ':canReadRole'])->get('/roles', [RoleController::class, 'index']);
-    Route::middleware([CheckPermission::class . ':canReadRole'])->get('/roles/{role}', [RoleController::class, 'show']);
+    Route::middleware([CheckPermission::class . ':canReadRole'])->get('/roles/{uuid}', [RoleController::class, 'show']);
+    Route::middleware([CheckPermission::class . ':canDeleteRole'])->delete('/roles/{uuid}', [RoleController::class, 'destroy']);
+
 });
 
 Route::post('/forgot-password', [ResetPasswordController::class, 'passwordEmail']);

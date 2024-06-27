@@ -10,6 +10,7 @@ use App\Http\Requests\UpdateRoleRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Ramsey\Uuid\Uuid;
 
 class RoleController extends Controller
 {
@@ -26,6 +27,7 @@ class RoleController extends Controller
             $rolesData = $roles->map(function ($role) {
                 return [
                     'id' => $role->id,
+                    'uuid' => $role->uuid,
                     'name' => $role->name,
                     'description' => $role->description,
                     'created_at' => $role->created_at->toDateTimeString(),
@@ -70,6 +72,7 @@ class RoleController extends Controller
             $role = new Role();
             $role->name = $validatedData['name'];
             $role->description = $validatedData['description'];
+            $role->uuid = Uuid::uuid4()->toString();
             $role->save();
 
             if (isset($validatedData['permissions'])) {
@@ -86,15 +89,23 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Role $role)
+    public function show($uuid)
     {
         try {
-            // Carica il ruolo con i suoi permessi associati
+
+            $role = Role::where('uuid', $uuid)->first();
+
+            if (!$role) {
+                return response()->json(['status' => false, 'message' => 'Role not found'], 404);
+            }
+
+            // Carica i permessi del ruolo
             $role->load('permissions');
 
             // Prepara i dati del ruolo per la risposta JSON
             $roleData = [
                 'id' => $role->id,
+                'uuid' => $role->uuid,
                 'name' => $role->name,
                 'description' => $role->description,
                 'created_at' => $role->created_at->toDateTimeString(),
@@ -109,13 +120,14 @@ class RoleController extends Controller
     }
 
 
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, $uuid)
     {
         try {
+            $role = Role::where('uuid', $uuid)->first();
+
             // Verifica che il ruolo esista
             if (!$role) {
                 return response()->json(['message' => 'Role not found'], 404);
@@ -164,9 +176,12 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy($uuid)
     {
         try {
+            
+            $role = Role::where('uuid', $uuid)->first();
+
             // Verifica che il ruolo esista
             if (!$role) {
                 return response()->json(['message' => 'Role not found'], 404);
