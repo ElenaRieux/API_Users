@@ -7,9 +7,6 @@ use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Middleware\CheckPermission;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:api');
 
 Route::group([
     "middleware" => ["guest"],

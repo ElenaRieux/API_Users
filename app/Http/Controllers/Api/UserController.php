@@ -140,14 +140,12 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
-
             $request->validate([
                 'name' => ['required'],
                 'email' => ['required', 'email', 'unique:users,email'],
                 'password' => ['required', 'confirmed'],
-                'role' => ['required', 'exists:roles,name'], // Assicura che il ruolo esista
+                'roles' => ['required', 'array', 'exists:roles,name'],
             ]);
-
 
             $user = User::create([
                 'uuid' => Uuid::uuid4()->toString(),
@@ -156,20 +154,11 @@ class UserController extends Controller
                 'password' => Hash::make($request->password)
             ]);
 
-            $user->roles()->attach(2);
+            // Ottieni gli ID dei ruoli basati sui nomi selezionati
+            $roles = Role::whereIn('name', $request->input('roles'))->pluck('id')->toArray();
 
-            // Ottieni l'ID del ruolo basato sul nome selezionato
-            $role = Role::where('name', $request->input('role'))->first();
-
-            // Verifica che il ruolo esista
-            if ($role) {
-                // Collega l'utente al ruolo
-                $user->roles()->attach($role);
-            } else {
-                return response()->json(['message' => 'Role does not exist'], 400);
-            }
-
-
+            // Collega l'utente ai ruoli
+            $user->roles()->sync($roles);
 
             return response()->json(['message' => 'User created successfully'], 201);
         } catch (\Exception $e) {
@@ -234,7 +223,7 @@ class UserController extends Controller
                     'name' => 'required',
                     'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
                     'password' => 'nullable|confirmed',
-                    'role' => 'required|exists:roles,name' // Verifica che il ruolo esista
+                    'roles' => ['required', 'array', 'exists:roles,name']
                 ]
             );
 
@@ -264,15 +253,11 @@ class UserController extends Controller
 
             $user->save();
 
-            // Ottieni l'ID del ruolo basato sul nome selezionato
-            $role = Role::where('name', $validatedData['role'])->first();
+            // Ottieni gli ID dei ruoli basati sui nomi selezionati
+            $roles = Role::whereIn('name', $validatedData['roles'])->pluck('id')->toArray();
 
-            // Verifica che il ruolo esista
-            if ($role) {
-                $user->roles()->sync([$role->id]);
-            } else {
-                return response()->json(['message' => 'Role does not exist'], 400);
-            }
+            // Sostituisce i ruoli esistenti con i nuovi ruoli
+            $user->roles()->sync($roles);
 
             // Prepara i dati di risposta
             $userData = [
@@ -290,6 +275,7 @@ class UserController extends Controller
             return response()->json(['message' => 'An error occurred', 'error' => $e->getMessage()], 500);
         }
     }
+
 
     // Cancellare User
 
