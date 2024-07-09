@@ -5,7 +5,7 @@ USE api_exercise;
 -- Creazione della tabella users
 CREATE TABLE users (
     id INT PRIMARY KEY,
-    VARCHAR(36) NOT NULL,
+    uuid VARCHAR(36) NOT NULL,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     email_verified_at TIMESTAMP NULL DEFAULT NULL,
