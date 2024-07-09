@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS api_exercise;
+
+USE api_exercise;
+
 -- Creazione della tabella users
 CREATE TABLE users (
     id INT PRIMARY KEY,
