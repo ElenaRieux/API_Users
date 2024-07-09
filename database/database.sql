@@ -54,7 +54,7 @@ VALUES (
 -- Creazione della tabella roles
 CREATE TABLE roles (
     id INT PRIMARY KEY,
-    user_id UUID NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
     role_id VARCHAR(255) NOT NULL,
     created_at TIMESTAMP NOT NULL
 );
