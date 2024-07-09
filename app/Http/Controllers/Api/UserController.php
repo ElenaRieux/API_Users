@@ -170,12 +170,11 @@ class UserController extends Controller
     public function show($uuid)
     {
         try {
-            // Verifica che l'utente possa leggere i dati
+
             if ($uuid !== Auth::user()->uuid) {
                 Gate::authorize('canReadUser');
             }
 
-            // Trova l'utente
             $user = User::where('uuid', $uuid)->first();
 
             if (!$user) {
@@ -204,12 +203,11 @@ class UserController extends Controller
     public function update(Request $request, $uuid)
     {
         try {
-            // Verifica che l'utente possa aggiornare i dati
+
             if ($uuid !== Auth::user()->uuid) {
                 Gate::authorize('canUpdateUser');
             }
 
-            // Trova l'utente
             $user = User::where('uuid', $uuid)->first();
 
             if (!$user) {
