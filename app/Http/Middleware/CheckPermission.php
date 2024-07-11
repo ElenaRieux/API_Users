@@ -23,6 +23,7 @@ class CheckPermission
     public function handle($request, Closure $next, $permission)
     {
         if (Gate::denies($permission)) {
+            Log::info('User has update_role permission: ' . ($permission));
             return response()->json(['message' => 'Unauthorized'], 403);
 
         }
