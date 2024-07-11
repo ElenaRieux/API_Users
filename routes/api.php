@@ -45,13 +45,11 @@ Route::group([
         Route::middleware([CheckPermission::class . ':canDeleteRole'])->delete('/{uuid}', [RoleController::class, 'destroy']);
     });
 
+    // Stripe Payment
+    Route::post('/stripe', [StripeController::class, 'createCheckoutSession']);
+    Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
+    Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
 });
-
-// Stripe Payment
-Route::post('/stripe', [StripeController::class, 'createCheckoutSession']);
-Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
-Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
-
 Route::post('/webhook', [StripeController::class, 'webhook'])->name('payment.webhook');
 
 
