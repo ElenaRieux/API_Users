@@ -123,7 +123,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, $uuid)
+    public function update(Request $request, $uuid)
     {
         try {
             $role = Role::where('uuid', $uuid)->first();
