@@ -23,7 +23,7 @@ class CheckPermission
     public function handle($request, Closure $next, $permission)
     {
         if (Gate::denies($permission)) {
-            return response()->json(['message' => 'Unauthorized','permission'=>$permission], 403);
+            return response()->json(['message' => 'Unauthorized'], 403);
 
         }
 
