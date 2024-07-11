@@ -39,6 +39,8 @@ services:
             - './docker/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
         networks:
             - sail
+        depends_on:
+            - mysql
         healthcheck:
             test:
                 - CMD
