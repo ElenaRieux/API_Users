@@ -64,3 +64,5 @@ Route::group(['prefix' => 'products'], function () {
 
 Route::post('/forgot-password', [ResetPasswordController::class, 'passwordEmail']);
 Route::post('/reset-password', [ResetPasswordController::class, 'passwordUpdate'])->name('password.update');
+
+Route::put('ciao/{uuid}', [RoleController::class, 'update']);
