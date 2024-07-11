@@ -11,12 +11,10 @@ use App\Http\Middleware\CheckPermission;
 
 // Utenti non registrati
 
-Route::group([
-    "middleware" => ["guest"],
-], function () {
-    Route::post('register', [UserController::class, 'register']);
-    Route::post('login', [UserController::class, 'login']);
-});
+
+Route::post('register', [UserController::class, 'register']);
+Route::post('login', [UserController::class, 'login']);
+
 
 // Utente registrato
 
