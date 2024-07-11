@@ -52,7 +52,7 @@ Route::post('/stripe', [StripeController::class, 'createCheckoutSession']);
 Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
 Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
 
-Route::get('/webhook', [StripeController::class, 'webhook'])->name('payment.webhook');
+Route::post('/webhook', [StripeController::class, 'webhook'])->name('payment.webhook');
 
 
 
