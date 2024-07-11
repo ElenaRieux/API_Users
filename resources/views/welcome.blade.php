@@ -913,7 +913,7 @@
 
 // Esempio di inizializzazione
 stripe.redirectToCheckout({
-    sessionId: 'cs_test_b1JUiYTEL6RXCWVRy7ljwN9pWKbbLlvAf3hBTzK7MY3EBfh3Jd1Oxycx7K'
+    sessionId: 'cs_test_b1DFiM6Y8XfiDcBmnanErEAMaTbMtXh9w6IA0221IIXuxxFDymIGEwLczU'
 }).then(function(result) {
     if (result.error) {
         console.error('Errore durante il reindirizzamento a Checkout:', result.error.message);

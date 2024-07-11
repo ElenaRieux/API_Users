@@ -435,8 +435,26 @@ CREATE TABLE password_reset_tokens (
 );
 
 -- Creazione della tabella order_product_details
+
+CREATE TABLE orders (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    session_id VARCHAR(255) NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    currency VARCHAR(3) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    card_type VARCHAR(50),
+    payment_intent_id VARCHAR(255),
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    INDEX idx_user_id (user_id),
+    INDEX idx_session_id (session_id),
+    INDEX idx_payment_intent_id (payment_intent_id)
+);
 CREATE TABLE order_product_details (
-    id INT PRIMARY KEY,
+    id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
     product_id INT,
     quantity INT,

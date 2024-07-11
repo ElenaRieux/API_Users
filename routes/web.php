@@ -3,7 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return 'hi';
+    return view('welcome');
+});
+
+Route::get('/success', function () {
+    return "hey";
 });
 
 Route::get('/reset-password/{token}', function (string $token) {
