@@ -48,6 +48,7 @@ Route::group([
     Route::post('/success', [StripeController::class, 'success'])->name('payment.success');
     Route::post('/cancel', [StripeController::class, 'cancel'])->name('payment.cancel');
 });
+
 Route::post('/webhook', [StripeController::class, 'webhook'])->name('payment.webhook');
 
 
