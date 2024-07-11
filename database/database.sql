@@ -63,8 +63,8 @@ CREATE TABLE roles (
 INSERT INTO
     roles (
         id,
-        user_id,
-        role_id,
+        uuid,
+        name,
         created_at
     )
 VALUES (
